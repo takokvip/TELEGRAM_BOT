@@ -64,5 +64,5 @@ Tệp này lưu lại log hoạt động của bot để bạn có thể theo d�
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/your-repo.git
-cd your-repo
+git clone https://github.com/takokvip/TELEGRAM_BOT.git
+cd TELEGRAM_BOT
