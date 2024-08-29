@@ -17,5 +17,5 @@ Before you start, ensure you have the following installed:
 Clone the repository from GitHub to your local machine:
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/takokvip/TELEGRAM_BOT.git
+cd TELEGRAM_BOT
