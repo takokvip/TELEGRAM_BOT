@@ -66,3 +66,30 @@ Tệp này lưu lại log hoạt động của bot để bạn có thể theo d�
 ```bash
 git clone https://github.com/takokvip/TELEGRAM_BOT.git
 cd TELEGRAM_BOT
+```
+### 2. Cài Đặt Các Gói Phụ Thuộc
+
+Cài đặt các gói cần thiết từ tệp `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+### 3. Cấu Hình Biến Môi Trường
+
+```bash
+TELEGRAM_BOT_TOKEN=your-telegram-bot-token
+```
+### 4. Chạy Bot
+
+```bash
+python main.py
+```
+### 5. Lưu ý
+Bot cần quyền quản trị viên trong nhóm để có thể xóa tin nhắn hoặc kick thành viên.
+Khi cài đặt từ khóa cấm trong ADMIN_KEYWORDS, hãy đảm bảo rằng các từ này phù hợp để tránh xóa nhầm các tin nhắn hợp lệ.
+
+### 6. Đóng Góp
+Nếu bạn muốn đóng góp vào dự án, vui lòng tạo Pull Request với các cải tiến hoặc sửa lỗi.
+
+### 7. Giấy Phép
+Dự án này được phát hành dưới giấy phép MIT. Vui lòng xem tệp LICENSE để biết thêm chi tiết.
