@@ -38,5 +38,20 @@
             "warnings": 0,
             "checkin_count": 1
         }
+    },
+    "-1002192297858": {
+        "BIKOOL1995": {
+            "points": 0,
+            "last_checkin": null,
+            "warnings": 1
+        }
+    },
+    "-1002065241168": {
+        "Kakalot5678": {
+            "points": 10,
+            "last_checkin": "2024-08-31 19:27:53",
+            "warnings": 0,
+            "checkin_count": 1
+        }
     }
 }

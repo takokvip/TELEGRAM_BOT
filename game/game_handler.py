@@ -12,22 +12,10 @@ logger = logging.getLogger(__name__)
 from handlers.checkin_handler import load_user_points, save_user_points
 
 game_state = {}
-
-async def user_has_interacted_before(user_id, bot):
-    try:
-        chat_member = await bot.get_chat_member(chat_id=user_id, user_id=user_id)
-        return chat_member.status != "left"
-    except:
-        return False
     
 async def start_ontuti(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     user = update.effective_user
-    
-    # Kiểm tra xem người dùng đã tương tác với bot chưa
-    if not await user_has_interacted_before(user.id, context.bot):
-        await context.bot.send_message(chat_id=user.id, text="Vui lòng nhắn tin bất kỳ cho bot trước khi bắt đầu trò chơi.")
-        return
     
     logger.debug(f"Attempting to start Oẳn Tù Tì game in chat {chat_id}")
 
@@ -77,11 +65,6 @@ async def start_ontuti(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def join_ontuti(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     user = update.effective_user
-    
-    # Kiểm tra xem người dùng đã tương tác với bot chưa
-    if not await user_has_interacted_before(user.id, context.bot):
-        await context.bot.send_message(chat_id=user.id, text="Vui lòng nhắn tin bất kỳ cho bot trước khi tham gia trò chơi.")
-        return
     
     logger.debug(f"User {user.id} trying to join game in chat {chat_id}")
     

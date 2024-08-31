@@ -6,6 +6,7 @@ from handlers.checkin_handler import checkin, checkdiem, sendmoney, myid, danhsa
 from handlers.filter_handler import filter_message
 from game.game_handler import start_ontuti, join_ontuti, handle_choice as handle_ontuti_choice
 from game.gametraloicauhoi import start_traloicauhoi, join_traloicauhoi, handle_answer as handle_traloicauhoi_answer
+from game.consomayman import register_handlers as register_consomayman_handlers
 
 # Thiết lập logging
 logging.basicConfig(
@@ -84,6 +85,7 @@ async def rule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "<b>/danhsachgiauco</b> : Giúp bạn xem danh sách những người có nhiều tiền nhất trong nhóm.\n"
         "<b>/ontuti</b> : Bắt đầu trò chơi Oẳn Tù Tì.\n"
         "<b>/traloicauhoi</b> : Bắt đầu trò chơi Trả Lời Câu Hỏi.\n"
+        "<b>/consomayman</b> : Bắt đầu trò chơi Con Số May Mắn.\n"
     )
 
     await update.message.reply_text(rule_message, parse_mode="HTML")
@@ -129,6 +131,9 @@ def main():
     # Handlers cho trò chơi Trả Lời Câu Hỏi
     application.add_handler(CommandHandler("traloicauhoi", start_traloicauhoi))
     application.add_handler(CommandHandler("jointraloicauhoi", join_traloicauhoi))
+    
+    # Đăng ký handlers cho trò chơi Con Số May Mắn
+    register_consomayman_handlers(application)
     
     # Handler chung cho tất cả các callback
     application.add_handler(CallbackQueryHandler(handle_callback))

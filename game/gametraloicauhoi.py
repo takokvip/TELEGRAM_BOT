@@ -279,11 +279,6 @@ async def join_traloicauhoi(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     logger.debug(f"User {user.id} trying to join Trả Lời Câu Hỏi game in chat {chat_id}")
     
-    # Kiểm tra nếu người dùng chưa tương tác với bot
-    if not user_has_interacted_before(user.id):
-        await context.bot.send_message(chat_id=user.id, text="Vui lòng nhắn tin bất kỳ cho bot trước khi bắt đầu trò chơi.")
-        return
-    
     if chat_id not in game_state or not game_state[chat_id].get("game_started", False):
         await update.message.reply_text("Hiện tại chưa có game nào được tạo. Hãy sử dụng lệnh /traloicauhoi để tạo game mới.")
         return
@@ -352,14 +347,6 @@ async def start_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def ask_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
-    chat_id = update.effective_chat.id if update else context.job.chat_id
-    
-    # Kiểm tra nếu người dùng chưa tương tác với bot
-    for player in game_state[chat_id]["players"]:
-        if not user_has_interacted_before(player.id):
-            await context.bot.send_message(chat_id=player.id, text="Vui lòng nhắn tin bất kỳ cho bot trước khi bắt đầu trò chơi.")
-            return
-        
     if update:
         chat_id = update.effective_chat.id
     elif context.job:
