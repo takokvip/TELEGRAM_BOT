@@ -185,10 +185,9 @@ async def danhsachgiauco(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Hiển thị 20 người đầu tiên
     content = f"DANH SÁCH GIÀU CÓ TRONG NHÓM\n------—--—TỔNG: <b>{total_users:,}</b> NGƯỜI------—--—\n\n"
     for i, (username, data) in enumerate(sorted_users[:20], 1):
-        name = data.get('name', username)
-        if len(name) > 15:
-            name = name[:12] + "..."
-        content += f"{i}. @{name} - Số Money có: {data['points']:,}\n"
+        display_name = f"@{username}"
+        points = data['points']
+        content += f"{i}. {display_name} - Số Money có: {points:,}\n"
 
     # Tạo nút "Xem thêm" nếu có nhiều hơn 20 người
     keyboard = []
@@ -196,7 +195,7 @@ async def danhsachgiauco(update: Update, context: ContextTypes.DEFAULT_TYPE):
         keyboard.append([InlineKeyboardButton("Xem thêm", callback_data="next_page_1")])
 
     reply_markup = InlineKeyboardMarkup(keyboard) if keyboard else None
-    await update.message.reply_html(content, reply_markup=reply_markup)
+    await update.message.reply_html(content, reply_markup=reply_markup, disable_web_page_preview=True)
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
