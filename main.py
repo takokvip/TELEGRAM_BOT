@@ -78,11 +78,11 @@ async def myid_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 async def rule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     rule_message = (
         "Dưới đây là cấu trúc và cách hoạt động của nhóm:\n\n"
-        "<b>okpay</b> : Giúp bạn điểm danh tích tiền mỗi ngày.\n"
-        "<b>/checkdiem</b> : Giúp bạn kiểm tra số tiền mà bạn có.\n"
-        "<b>/sendmoney @username {số tiền}</b> : Giúp bạn gửi tiền cho người khác.\n"
+        "<b>okpay</b> : Giúp bạn điểm danh tích điểm mỗi ngày.\n"
+        "<b>/checkdiem</b> : Giúp bạn kiểm tra số điểm mà bạn có.\n"
+        "<b>/sendmoney @username {số điểm}</b> : Giúp bạn gửi điểm cho người khác.\n"
         "<b>/myid</b> : Giúp bạn lấy ID của chính mình (nhắn tin riêng cho BOT).\n"
-        "<b>/danhsachgiauco</b> : Giúp bạn xem danh sách những người có nhiều tiền nhất trong nhóm.\n"
+        "<b>/danhsachgiauco</b> : Giúp bạn xem danh sách những người có nhiều điểm nhất trong nhóm.\n"
         "<b>/ontuti</b> : Bắt đầu trò chơi Oẳn Tù Tì.\n"
         "<b>/traloicauhoi</b> : Bắt đầu trò chơi Trả Lời Câu Hỏi.\n"
         "<b>/consomayman</b> : Bắt đầu trò chơi Con Số May Mắn.\n"

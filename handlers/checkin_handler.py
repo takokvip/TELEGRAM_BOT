@@ -183,11 +183,11 @@ async def danhsachgiauco(update: Update, context: ContextTypes.DEFAULT_TYPE):
     total_users = len(sorted_users)
 
     # Hiển thị 20 người đầu tiên
-    content = f"DANH SÁCH GIÀU CÓ TRONG NHÓM\n------—--—TỔNG: <b>{total_users:,}</b> NGƯỜI------—--—\n\n"
+    content = f"DANH SÁCH NHIỀU ĐIỂM TRONG NHÓM\n------—--—TỔNG: <b>{total_users:,}</b> NGƯỜI------—--—\n\n"
     for i, (username, data) in enumerate(sorted_users[:20], 1):
         display_name = f"@{username}"
         points = data['points']
-        content += f"{i}. {display_name} - Số Money có: {points:,}\n"
+        content += f"{i}. {display_name} - Số điểm có: {points:,}\n"
 
     # Tạo nút "Xem thêm" nếu có nhiều hơn 20 người
     keyboard = []
@@ -210,12 +210,12 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     start = page * 20
     end = start + 20
 
-    content = f"DANH SÁCH GIÀU CÓ TRONG NHÓM (Trang {page + 1})\n-------TỔNG: <b>{total_users:,}</b> NGƯỜI-------\n\n"
+    content = f"DANH SÁCH NHIỀU ĐIỂM TRONG NHÓM (Trang {page + 1})\n-------TỔNG: <b>{total_users:,}</b> NGƯỜI-------\n\n"
     for i, (username, data) in enumerate(sorted_users[start:end], start + 1):
         name = data.get('name', username)
         if len(name) > 15:
             name = name[:12] + "..."
-        content += f"{i}. {name} - Số Money có: {data['points']:,}\n"
+        content += f"{i}. {name} - Số điểm có: {data['points']:,}\n"
 
     keyboard = []
     if page > 0:

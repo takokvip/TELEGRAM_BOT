@@ -24,7 +24,7 @@ async def start_consomayman(update: Update, context: ContextTypes.DEFAULT_TYPE):
     announcement = await update.message.reply_html(
         "Xin mời tất cả thành viên trong nhóm chọn 1 con số đảm bảo không trùng với thành viên nào vì phần thưởng không thể chia đôi!\n"
         "Cách thức tham gia:\n"
-        "/chon <code>{số}</code> mà bạn thích <code>(ví dụ: /chon 99)</code> game sẽ start sau 120s."
+        "/chon <code>{số}</code> mà bạn thích <code>(ví dụ: /chon 99)</code> game sẽ start sau 30s."
     )
     game_state[chat_id]["messages"].append(announcement.message_id)
 

@@ -206,6 +206,22 @@ QUESTIONS = [
 
 used_questions = set()
 
+def shuffle_options(question):
+    options = question["options"]
+    correct_answer = question["correct"]
+    
+    # Tạo một danh sách các tuple (option, is_correct)
+    options_with_flags = [(option, option == correct_answer) for option in options]
+    
+    # Hoán đổi vị trí các lựa chọn
+    random.shuffle(options_with_flags)
+    
+    # Tách lại danh sách các lựa chọn và cờ đúng/sai
+    shuffled_options = [option for option, is_correct in options_with_flags]
+    correct_index = next(i for i, (option, is_correct) in enumerate(options_with_flags) if is_correct)
+    
+    return shuffled_options, correct_index
+
 async def start_traloicauhoi(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global used_questions
     chat_id = update.effective_chat.id
@@ -234,6 +250,10 @@ async def start_traloicauhoi(update: Update, context: ContextTypes.DEFAULT_TYPE)
     
     # Cập nhật danh sách các câu hỏi đã sử dụng
     used_questions.update(q["question"] for q in selected_questions)
+
+    # Hoán đổi vị trí các lựa chọn cho mỗi câu hỏi
+    for question in selected_questions:
+        question["options"], question["correct_index"] = shuffle_options(question)
 
     game_state[chat_id] = {
         "game_started": True,
@@ -346,7 +366,6 @@ async def start_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await ask_question(update, context)
 
 async def ask_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    
     if update:
         chat_id = update.effective_chat.id
     elif context.job:
@@ -354,20 +373,25 @@ async def ask_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         # Lấy chat_id từ game_state nếu không có update hoặc job
         chat_id = next(iter(game_state.keys()))
-    
+
     current_question = game_state[chat_id]["current_question"]
     question_data = game_state[chat_id]["questions"][current_question]
 
+    # Sử dụng các đáp án đã trộn từ shuffle_options
+    options = question_data["options"]
+    correct_index = question_data["correct_index"]
+
     logger.debug(f"Asking question {current_question + 1}/5 for chat {chat_id}")
 
+    # Tạo các button từ danh sách đáp án đã trộn
     keyboard = [
         [
-            InlineKeyboardButton(question_data["options"][0], callback_data=f"answer:{chat_id}:{current_question}:0"),
-            InlineKeyboardButton(question_data["options"][1], callback_data=f"answer:{chat_id}:{current_question}:1")
+            InlineKeyboardButton(options[0], callback_data=f"answer:{chat_id}:{current_question}:{0}"),
+            InlineKeyboardButton(options[1], callback_data=f"answer:{chat_id}:{current_question}:{1}")
         ],
         [
-            InlineKeyboardButton(question_data["options"][2], callback_data=f"answer:{chat_id}:{current_question}:2"),
-            InlineKeyboardButton(question_data["options"][3], callback_data=f"answer:{chat_id}:{current_question}:3")
+            InlineKeyboardButton(options[2], callback_data=f"answer:{chat_id}:{current_question}:{2}"),
+            InlineKeyboardButton(options[3], callback_data=f"answer:{chat_id}:{current_question}:{3}")
         ]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -384,6 +408,9 @@ async def ask_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if "question_messages" not in game_state[chat_id]:
             game_state[chat_id]["question_messages"] = []
         game_state[chat_id]["question_messages"].append(message.message_id)
+
+    # Lưu lại chỉ số của đáp án đúng để so sánh sau này
+    game_state[chat_id]["correct_index"] = correct_index
 
     # Đặt timer cho câu hỏi
     context.job_queue.run_once(question_timeout, 10, chat_id=chat_id, name=f'question_timeout_{chat_id}')
@@ -429,9 +456,12 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text("Câu hỏi này đã kết thúc.")
             return
 
+        # Kiểm tra chỉ số của đáp án đúng từ game_state
+        correct_index = game_state[chat_id]["correct_index"]
+        is_correct = (answer_index == correct_index)
+
         selected_answer = game_state[chat_id]["questions"][question_number]["options"][answer_index]
-        correct_answer = game_state[chat_id]["questions"][question_number]["correct"]
-        is_correct = selected_answer == correct_answer
+        correct_answer = game_state[chat_id]["questions"][question_number]["options"][correct_index]
 
         await query.edit_message_text(f"Bạn đã chọn đáp án: {selected_answer}")
 
